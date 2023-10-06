@@ -22,7 +22,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     // public CANSparkMax armRotateMotor;
     public CANSparkMax wristRotateMotor;
-    public CANSparkMax intakeMotor;
+    public CANSparkMax intakeMotorL;
+    public CANSparkMax intakeMotorR;
 
     // public static SparkMaxAbsoluteEncoder armRotateEncoder;
     // public SparkMaxAbsoluteEncoder armRotateEncoder;
@@ -34,10 +35,11 @@ public class ArmSubsystem extends SubsystemBase {
         //rightArmSlider = new CANSparkMax(Constants.ArmConstants.kRightSliderMotor, MotorType.kBrushless);
 
         //wristRotateMotor =  new CANSparkMax(Constants.ArmConstants.kManipulatorWristMotor, MotorType.kBrushless);
-        intakeMotor =  new CANSparkMax(Constants.ArmConstants.kManipulatorIntakeMotor, MotorType.kBrushless);
+        intakeMotorL =  new CANSparkMax(Constants.ArmConstants.kManipulatorIntakeMotorL, MotorType.kBrushless);
+        intakeMotorR =  new CANSparkMax(Constants.ArmConstants.kManipulatorIntakeMotorR, MotorType.kBrushless);
         // armRotateMotor = new CANSparkMax(Constants.ArmConstants.kArmRotateMotor,MotorType.kBrushless);
 
-        sliderEncoder = leftArmSlider.getEncoder();
+        //sliderEncoder = leftArmSlider.getEncoder();
 
         // armRotateEncoder = armRotateMotor.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, 8192);
         // armRotateEncoder = armRotateMotor.	getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle);
@@ -46,12 +48,12 @@ public class ArmSubsystem extends SubsystemBase {
 
         // grabberEncoder = grabberMotor.getEncoder();
 
-        wristRotateEncoder = wristRotateMotor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle);
-        wristRotateEncoder.setPositionConversionFactor(360);
-        wristRotateEncoder.setZeroOffset(259);
+        //wristRotateEncoder = wristRotateMotor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle);
+        //wristRotateEncoder.setPositionConversionFactor(360);
+        //wristRotateEncoder.setZeroOffset(259);
 
         // armRotateEncoder.setPositionConversionFactor(0);
-        sliderEncoder.setPositionConversionFactor(0.5855165417); // 1.31741221882
+        //sliderEncoder.setPositionConversionFactor(0.5855165417); // 1.31741221882
         // grabberEncoder.setPositionConversionFactor(2.666);
     }
 }

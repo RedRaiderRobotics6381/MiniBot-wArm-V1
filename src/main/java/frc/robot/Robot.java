@@ -10,12 +10,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.ArmConstants;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+
+import com.revrobotics.AbsoluteEncoder;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -47,44 +50,44 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
 
-        m_visionThread =
-            new Thread(
-                () -> {
-                // Get the UsbCamera from CameraServer
-                UsbCamera camera = CameraServer.startAutomaticCapture();
-                // Set the resolution
-                camera.setResolution(160, 120);
+        // m_visionThread =
+        //     new Thread(
+        //         () -> {
+        //         // Get the UsbCamera from CameraServer
+        //         UsbCamera camera = CameraServer.startAutomaticCapture();
+        //         // Set the resolution
+        //         camera.setResolution(160, 120);
 
-                // Get a CvSink. This will capture Mats from the camera
-                CvSink cvSink = CameraServer.getVideo();
-                // Setup a CvSource. This will send images back to the Dashboard
-                CvSource outputStream = CameraServer.putVideo("Rectangle", 160, 120);
+        //         // Get a CvSink. This will capture Mats from the camera
+        //         CvSink cvSink = CameraServer.getVideo();
+        //         // Setup a CvSource. This will send images back to the Dashboard
+        //         CvSource outputStream = CameraServer.putVideo("Rectangle", 160, 120);
 
-                // Mats are very memory expensive. Lets reuse this Mat.
-                Mat mat = new Mat();
+        //         // Mats are very memory expensive. Lets reuse this Mat.
+        //         Mat mat = new Mat();
 
-                // This cannot be 'true'. The program will never exit if it is. This
-                // lets the robot stop this thread when restarting robot code or
-                // deploying.
-                while (!Thread.interrupted()) {
-                    // Tell the CvSink to grab a frame from the camera and put it
-                    // in the source mat.  If there is an error notify the output.
-                    if (cvSink.grabFrame(mat) == 0) {
-                    // Send the output the error.
-                    outputStream.notifyError(cvSink.getError());
-                    // skip the rest of the current iteration
-                    continue;
-                    }
-                    // Put a rectangle on the image
-                    Imgproc.rectangle(
-                        mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
-                    // Give the output stream a new image to display
-                    outputStream.putFrame(mat);
-                }
-                });
-        m_visionThread.setDaemon(true);
-        m_visionThread.start();
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+        //         // This cannot be 'true'. The program will never exit if it is. This
+        //         // lets the robot stop this thread when restarting robot code or
+        //         // deploying.
+        //         while (!Thread.interrupted()) {
+        //             // Tell the CvSink to grab a frame from the camera and put it
+        //             // in the source mat.  If there is an error notify the output.
+        //             if (cvSink.grabFrame(mat) == 0) {
+        //             // Send the output the error.
+        //             outputStream.notifyError(cvSink.getError());
+        //             // skip the rest of the current iteration
+        //             continue;
+        //             }
+        //             // Put a rectangle on the image
+        //             Imgproc.rectangle(
+        //                 mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
+        //             // Give the output stream a new image to display
+        //             outputStream.putFrame(mat);
+        //         }
+        //         });
+        // m_visionThread.setDaemon(true);
+        // m_visionThread.start();
+        // NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
         m_robotContainer = new RobotContainer();
     }
       
@@ -162,6 +165,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         // System.out.println("Wrist Encoder: " + RobotContainer.armSubsystem.wristRotateEncoder.getPosition());
+        SmartDashboard.putNumber("Arm Angle", RobotContainer.rotateSubsystem.armRotateEncoder.getPosition());
 
         // System.out.println("Yaw" + RobotContainer.swerveSubsystem.getYaw());
 
