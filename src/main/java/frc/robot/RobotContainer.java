@@ -3,8 +3,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj2.command.InstantCommand;
 // import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -17,7 +20,10 @@ import frc.robot.commands.Arm.Intake.ArmIntakeInCmd;
 import frc.robot.commands.Arm.Intake.ArmIntakeOutCmd;
 import frc.robot.commands.Arm.Manipulator.ArmManipulatorDriveCmd;
 import frc.robot.commands.Arm.Manipulator.ArmManipulatorIntakeCmd;
+import frc.robot.commands.Auto.AutoWaitCmd;
 import frc.robot.commands.Auto.Movement.AutoChargingBalanceCmd;
+import frc.robot.commands.Auto.Movement.AutoDriveCmd;
+import frc.robot.commands.Auto.Movement.Trajectories;
 import frc.robot.commands.Drive.Allign.DriveAllignPoleCmd;
 import frc.robot.commands.Drive.Default.SwerveJoystickCmd;
 import frc.robot.commands.Drive.Gyro.DriveGyroResetCmd;
@@ -27,40 +33,41 @@ import frc.robot.subsystems.Secondary.RotateSubsystem;
 
 public class RobotContainer {
 
-        // private final Command autoMiddle = new SequentialCommandGroup(
-        //                 new InstantCommand(
-        //                                 () -> swerveSubsystem.resetOdometry(Trajectories.getTraj1().getInitialPose())),
-        //                 Trajectories.traj3(), // move to charge station
-        //                 Trajectories.traj1(), // move then stop
-        //                 // new AutoWaitCmd(500), // stop
-        //                 Trajectories.traj2(), // go on the drive station
-        //                 Commands.race(new AutoDriveCmd(swerveSubsystem, 0.5), new AutoWaitCmd(10)),
-        //                 new AutoChargingBalanceCmd(swerveSubsystem),
-        //                 // new Gyro180Cmd(swerveSubsystem),
-        //                 new InstantCommand(() -> swerveSubsystem.stopModules()));
+        private final Command autoMiddle = new SequentialCommandGroup(
+                        new InstantCommand(
+                                        () -> swerveSubsystem.resetOdometry(Trajectories.getTraj1().getInitialPose())),
+                        Trajectories.traj3(), // move to charge station
+                        Trajectories.traj1(), // move then stop
+                        // new AutoWaitCmd(500), // stop
+                        Trajectories.traj2(), // go on the drive station
+                        Commands.race(new AutoDriveCmd(swerveSubsystem, 0.5), new AutoWaitCmd(10)),
+                        new AutoChargingBalanceCmd(swerveSubsystem),
+                        // new Gyro180Cmd(swerveSubsystem),
+                        new InstantCommand(() -> swerveSubsystem.stopModules()));
 
-        // private final Command autoSide = new SequentialCommandGroup(
-        //                 new InstantCommand(
-        //                                 () -> swerveSubsystem.resetOdometry(Trajectories.getTraj4().getInitialPose())),
-        //                 // new Gyro180Cmd(swerveSubsystem),
-        //                 Trajectories.traj4(),
-        //                 // new DriveGyro180Cmd(swerveSubsystem),
-        //                 new InstantCommand(() -> swerveSubsystem.stopModules()));
+        private final Command autoSide = new SequentialCommandGroup(
+                        new InstantCommand(
+                                        () -> swerveSubsystem.resetOdometry(Trajectories.getTraj4().getInitialPose())),
+                        // new Gyro180Cmd(swerveSubsystem),
+                        Trajectories.traj4(),
+                        // new DriveGyro180Cmd(swerveSubsystem),
+                        new InstantCommand(() -> swerveSubsystem.stopModules()));
 
-        // private final Command autoSideLeft = new SequentialCommandGroup(
-        //                 new InstantCommand(
-        //                                 () -> swerveSubsystem.resetOdometry(Trajectories.getTraj6().getInitialPose())),
-        //                 // new Gyro180Cmd(swerveSubsystem),
-        //                 Trajectories.traj4(),
-        //                 // new DriveGyro180Cmd(swerveSubsystem),
-        //                 new InstantCommand(() -> swerveSubsystem.stopModules()));
+        private final Command autoSideLeft = new SequentialCommandGroup(
+                        new InstantCommand(
+                                        () -> swerveSubsystem.resetOdometry(Trajectories.getTraj6().getInitialPose())),
+                        // new Gyro180Cmd(swerveSubsystem),
+                        Trajectories.traj4(),
+                        // new DriveGyro180Cmd(swerveSubsystem),
+                        new InstantCommand(() -> swerveSubsystem.stopModules()));
 
-        // private final Command autoPlace = new SequentialCommandGroup(
-        //                 // new Gyro180Cmd(swerveSubsystem),
-        //                 new InstantCommand(
-        //                                 () -> swerveSubsystem.resetOdometry(Trajectories.getTraj1().getInitialPose())),
-        //                 // new DriveGyro180Cmd(swerveSubsystem),
-        //                 new InstantCommand(() -> swerveSubsystem.stopModules()));
+        private final Command autoPlace = new SequentialCommandGroup(
+                        // new Gyro180Cmd(swerveSubsystem),
+                        new InstantCommand(
+                                        () -> swerveSubsystem.resetOdometry(Trajectories.getTraj1().getInitialPose())),
+                        // new DriveGyro180Cmd(swerveSubsystem),
+                        new InstantCommand(() -> swerveSubsystem.stopModules
+                        ()));
 
         // A chooser for autonomous commands
         SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -75,10 +82,10 @@ public class RobotContainer {
 
         public RobotContainer() {
 
-                // m_chooser.setDefaultOption("Quick Play Dead", autoPlace);
-                // m_chooser.addOption("Who Needs The Community", autoSide);
-                // m_chooser.addOption("SEE-SAW", autoMiddle);
-                // SmartDashboard.putData("Auto choices", m_chooser);
+                m_chooser.setDefaultOption("Quick Play Dead", autoPlace);
+                m_chooser.addOption("Who Needs The Community", autoSide);
+                m_chooser.addOption("SEE-SAW", autoMiddle);
+                SmartDashboard.putData("Auto choices", m_chooser);
 
                 // Put the chooser on the dashboard
                 Shuffleboard.getTab("Autonomous").add(m_chooser);

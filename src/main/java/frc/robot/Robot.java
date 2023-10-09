@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.Secondary.RotateSubsystem;
 // import edu.wpi.first.wpilibj2.command.Subsystem;
 // import frc.robot.Constants.ArmConstants;
 
@@ -172,6 +174,8 @@ public class Robot extends TimedRobot {
         // SmartDashboard.putNumber("Pitch", RobotContainer.swerveSubsystem.getPitch());
 
         // Manipulator w/ restrictions
+
+        RotateSubsystem.armRotateMotor.set(-ArmConstants.rotateSpeed * RobotContainer.secondaryJoystick.getRawAxis(1) *0.1);
     }
     @Override
     public void testInit() {
