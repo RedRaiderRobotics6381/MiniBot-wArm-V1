@@ -93,10 +93,10 @@ public final class Constants {
 
 
         // Sure: Offset to basically make the drive wheels straight when the encoders read zero
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 4.953223964082736;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 2.6813984172241008;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.214000698023295;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 2.3331847783740605;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 4.953223964082736+Math.PI;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 2.6813984172241008+Math.PI;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.214000698023295+Math.PI;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 2.3331847783740605+Math.PI;
 
         // Maybe check:
         // public static final double kPhysicalMaxSpeedMetersPerSecond = 5*(2.0/0.25); // max speed, roughly 0.6 full speed, was 5, changing this didn't change anything it seemed, maybe slowed down the turning motors.

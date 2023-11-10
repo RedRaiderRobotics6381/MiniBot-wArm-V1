@@ -20,6 +20,7 @@ import frc.robot.commands.Arm.Manipulator.ArmManipulatorIntakeCmd;
 import frc.robot.commands.Auto.Movement.AutoChargingBalanceCmd;
 import frc.robot.commands.Drive.Allign.DriveAllignPoleCmd;
 import frc.robot.commands.Drive.Default.SwerveJoystickCmd;
+import frc.robot.commands.Drive.Gyro.DriveGyro180Cmd;
 import frc.robot.commands.Drive.Gyro.DriveGyroResetCmd;
 import frc.robot.subsystems.Primary.SwerveSubsystem;
 import frc.robot.subsystems.Secondary.ArmSubsystem;
@@ -112,6 +113,8 @@ public class RobotContainer {
                 new JoystickButton(secondaryJoystick,3 ).whileTrue(new ArmIntakeInCmd(armSubsystem));
 
                 new JoystickButton(secondaryJoystick,2 ).whileTrue(new ArmIntakeOutCmd(armSubsystem));
+
+                new JoystickButton(secondaryJoystick,7 ).whileTrue(new DriveGyro180Cmd(swerveSubsystem));
         }
 
         public Command getAutonomousCommand() {
