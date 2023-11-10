@@ -14,6 +14,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Secondary.RotateSubsystem;
 // import edu.wpi.first.wpilibj2.command.Subsystem;
 // import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.Secondary.RotateSubsystem;
 
 // import org.opencv.core.Mat;
 // import org.opencv.core.Point;
@@ -38,6 +39,8 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
     private RobotContainer m_robotContainer;
+
+    public static boolean ManualRotation;
 
     UsbCamera camera1;
     double targetPos = 150;
@@ -170,7 +173,9 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Arm Angle", RobotContainer.rotateSubsystem.armRotateEncoder.getPosition());
 
         // System.out.println("Yaw" + RobotContainer.swerveSubsystem.getYaw());
-
+        if(ManualRotation){
+        RotateSubsystem.armRotateMotor.set(RobotContainer.secondaryJoystick.getRawAxis(1)*0.25);
+        }
         // SmartDashboard.putNumber("Pitch", RobotContainer.swerveSubsystem.getPitch());
 
         // Manipulator w/ restrictions

@@ -24,7 +24,7 @@ public class ArmIntakeOutCmd extends CommandBase {
 
     @Override
     public void execute() {
-        armSubsystem.intakeMotorL.set(Constants.ArmConstants.gOutputSpeed);
+        armSubsystem.intakeMotorL.set(-Constants.ArmConstants.gOutputSpeed);
         armSubsystem.intakeMotorR.set(-Constants.ArmConstants.gOutputSpeed);
     }
 
